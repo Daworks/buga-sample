@@ -19,10 +19,10 @@ public class BugaClient implements Runnable{
 	Socket socket 			= null;
 	
 	String password 		= null;
-	File file				= null;
+	File file			= null;
 	File encFile			= null;
 	
-	SocketUtil socketUtil 	= null;
+	SocketUtil socketUtil 		= null;
 	BugaLogger logger		= new BugaLoggerImpl();
 	
 	public BugaClient(Socket socket, String password, File file, File encFile, SocketUtil socketUtil){
@@ -39,14 +39,13 @@ public class BugaClient implements Runnable{
 		try {
 			checkValidation();
 			
-			sendMessage(file.getName());		// fileName 전송
-			sendMessage("corpNoTest");			// 사업자번호 전송
+			sendMessage(file.getName());			// fileName 전송
 			sendMessage("userTest");			// 유저 아이디 전송
 			sendMessage(password);				// 패스워드 전송
 
-			sendFile(file);						// text 파일 전송
+			sendFile(file);					// text 파일 전송
 			
-			String resultToken = receiveMessage();	// 암호화 결과 token 받음
+			String resultToken = receiveMessage();		// 암호화 결과 token 받음
 			
 			logger.log("암호화 결과 Token => " + resultToken);
 			
@@ -150,24 +149,23 @@ public class BugaClient implements Runnable{
 	public int execute(String bizNo, String userId, String password, File textFile, File encryptFile){
 		try{
 			sendMessage(file.getName());		// fileName 전송
-			sendMessage(bizNo);					// 사업자번호 전송
-			sendMessage(userId);				// 유저 아이디 전송
-			sendMessage(password);				// 패스워드 전송
+			sendMessage(userId);			// 유저 아이디 전송
+			sendMessage(password);			// 패스워드 전송
 
-			sendFile(file);						// text 파일 전송
+			sendFile(file);				// text 파일 전송
 			
 			String resultToken = receiveMessage();	// 암호화 결과 token 받음
 			
 			logger.log("[전자신고암호화] 암호화 결과 Token => " + resultToken);
 			
 			if("0".equals(resultToken)){
-				receiveFile(encFile);			// encrypt 파일 수신
+				receiveFile(encFile);		// encrypt 파일 수신
 			}
 			
 			closeSocket();
 			
 			
-				logger.log("[전자신고암호화]  연결종료되었습니다.");
+			logger.log("[전자신고암호화]  연결종료되었습니다.");
 				
 			return 0;
 		} catch(InterruptedException e){
